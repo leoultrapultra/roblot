@@ -1,0 +1,34 @@
+##################################################################################
+#  You can add your actions in this file or create any other file in this folder #
+##################################################################################
+
+import requests
+from typing import Any, Text, Dict, List
+from rasa_sdk import Action, Tracker
+from rasa_sdk.events import SlotSet
+from rasa_sdk.executor import CollectingDispatcher
+
+class MyAction(Action):
+
+    def name(self):
+        return 'action_my_action'
+
+    def run(self, dispatcher, tracker, domain):
+        # do something.
+        return []
+
+class ActionGameSearch(Action):
+
+    def name(self) -> Text:
+        return 'action_game_search'
+
+    def run(
+            self,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        game = tracker.latest_message['text']
+        game = game.replace(" ", "+")
+        dispatcher.utter_message(text=f"https://www.google.com/search?q=roblox+scripts+for+{game}")
+        return []
